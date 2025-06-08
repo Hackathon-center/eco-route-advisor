@@ -1,4 +1,4 @@
-# EcoRoute Advisor 🚚🌱
+# EcoRoute Advisor 
 
 **EcoRoute Advisor** is a virtual driving range for experimenting with eco-friendly routing ideas—no real trucks, SIM cards, or GPS devices required.
 
@@ -6,7 +6,7 @@ We replay a CSV of timestamped GPS points into AWS, simulating a live fleet. Wit
 
 ---
 
-## 📡 Architecture Overview
+## Architecture Overview
 
 1. **CSV Replay**  
    A Lambda function replays `vehicles.csv` and streams fake GPS positions to Amazon Location Service (Tracker).
@@ -33,7 +33,7 @@ We replay a CSV of timestamped GPS points into AWS, simulating a live fleet. Wit
 
 ---
 
-## 🧩 AWS Components
+## AWS Components
 
 | Service                     | Role                                                                 |
 |----------------------------|----------------------------------------------------------------------|
@@ -46,7 +46,7 @@ We replay a CSV of timestamped GPS points into AWS, simulating a live fleet. Wit
 
 ---
 
-## 🧪 Construction Stages
+## Construction Stages
 
 | Stage         | What You See on the Dashboard                                  |
 |---------------|---------------------------------------------------------------|
@@ -59,7 +59,7 @@ We replay a CSV of timestamped GPS points into AWS, simulating a live fleet. Wit
 
 ---
 
-## 📈 Why It Matters
+## Why It Matters
 
 - Transforms offline CSVs into real-time telemetry
 - Showcases real-world 5G + edge compute with **Wavelength**
