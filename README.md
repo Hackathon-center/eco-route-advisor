@@ -1,72 +1,34 @@
-# EcoRoute Advisor 
+# Project Title: Fleet Management and Optimisation System
 
-**EcoRoute Advisor** is a virtual driving range for experimenting with eco-friendly routing ideas—no real trucks, SIM cards, or GPS devices required.
+## Overview
+This project aims to develop a comprehensive fleet management and optimisation system. It includes features for simulating fleet operations, optimizing routes for fuel efficiency, providing real-time updates to drivers and fleet managers, generating eco-driving tips, and ensuring data security and auditability.
 
-We replay a CSV of timestamped GPS points into AWS, simulating a live fleet. With telco-edge compute, AI coaching, and real-time dashboards, EcoRoute Advisor showcases the power of AWS for sustainability and latency-sensitive workloads.
+## Epics
 
----
+The project is divided into the following epics:
 
-## Architecture Overview
+1.  **Ingestion**: Handles the initial intake of GPS data.
+    *   *User Story*: As a DevOps engineer, I want to upload a CSV file containing pre-recorded GPS pings so that we can simulate a fleet without hardware.
+2.  **QA Tools**: Provides tools for quality assurance and demo purposes.
+    *   *User Story*: As a QA tester, I want a Postman collection that seeds sample files so that any team-mate can spin up a demo in < 5 min.
+3.  **Optimisation Engine**: Focuses on route optimisation.
+    *   *User Story*: As the optimisation engine, I want to call SageMaker Geospatial every 60 s to recompute shortest paths that avoid congestion so that fuel burn is minimised.
+4.  **Driver Mobile App**: Delivers route information and tips to drivers.
+    *   *User Story*: As a driver, I want my mobile view to highlight the updated route in ≤ 5 s after optimisation so that I can adjust without confusion.
+5.  **Sustainability Analytics**: Generates eco-friendly driving advice.
+    *   *User Story*: As a sustainability analyst, I want Bedrock to generate bite-sized eco-tips based on driving behaviour so that drivers learn how to save fuel.
+6.  **Fleet Manager Dashboard**: Provides a web interface for fleet overview and tip logging.
+    *   *User Story 1*: As a fleet manager, I want the tips logged against each trip so that I can review driver coaching history.
+    *   *User Story 2*: As a dispatcher, I want a web dashboard that shows current vehicle positions, planned routes and litres saved so that I see ROI in real time.
+7.  **DevOps**: Manages infrastructure and deployment.
+    *   *User Story*: As a DevOps engineer, I want to deploy the optimisation Lambda in both a Wavelength Zone (us-wavelength-1) and a standard region (us-east-1) so that we can A/B test latency.
+8.  **Reporting**: Focuses on performance monitoring and alerting.
+    *   *User Story*: As a product owner, I want a Grafana panel that graphs median route-replan latency for both regions so that I can quantify the 20–30 % speedup target.
+9.  **Demo Scripts**: Contains scripts for showcasing specific features.
+    *   *User Story*: As a judge, I want a demo script that throttles bandwidth to 1 Mbps and shows Wavelength still hitting < 1 s replans so that the telco value prop is obvious.
+10. **Security**: Ensures data protection.
+    *   *User Story*: As a security officer, I want all location data encrypted at rest with AWS-managed KMS keys so that we meet basic compliance.
+11. **Audit**: Manages access logging and review.
+    *   *User Story*: As a privacy-conscious fleet manager, I want to view audit logs of who accessed trip data so that I can investigate incidents.
 
-1. **CSV Replay**  
-   A Lambda function replays `vehicles.csv` and streams fake GPS positions to Amazon Location Service (Tracker).
-
-2. **Route Calculation (Region vs Edge)**  
-   Another Lambda (`RoutePlanner`) runs in:
-   - A standard AWS Region (`us-east-1`)
-   - An AWS Wavelength Zone (inside a 5G telco)
-
-   Both use **SageMaker Geospatial APIs** to get fuel-efficient routes.
-
-3. **AI Coaching**  
-   Driving stats (idle time, speed variance) are sent to a **Bedrock InlineAgent** for natural language eco-driving tips.
-
-4. **Real-Time Fan-out**  
-   New data (locations, tips, routes) is saved to **DynamoDB** and broadcast via **AWS AppSync** (GraphQL Subscriptions).
-
-5. **Visualization**  
-   A **Next.js + MapLibre** frontend shows:
-   - Moving truck icons
-   - Eco (green) vs Original (purple) routes
-   - Fuel and CO₂ counters
-   - Edge vs Region replan latency chart
-
----
-
-## AWS Components
-
-| Service                     | Role                                                                 |
-|----------------------------|----------------------------------------------------------------------|
-| Amazon Location Service     | Tracker + map tiles; logs all GPS points.                            |
-| AWS Wavelength              | Runs RoutePlanner at telco edge for low-latency testing.             |
-| SageMaker Geospatial        | Finds fuel-efficient routes using satellite data.                    |
-| Amazon Bedrock (InlineAgent)| Generates plain-English eco-driving tips.                            |
-| AWS AppSync + DynamoDB      | Real-time GraphQL + persistent state storage.                        |
-| Next.js (frontend)          | Delivers dispatcher and driver views from one codebase.              |
-
----
-
-## Construction Stages
-
-| Stage         | What You See on the Dashboard                                  |
-|---------------|---------------------------------------------------------------|
-| `S-1`         | Dots moving on roads from CSV replay                          |
-| `S-2`         | Green route appears + "Litres saved" counter                  |
-| `S-3`         | Latency widget shows Region vs Edge times                     |
-| `S-4`         | AI "eco-tips" pop up beside trucks                           |
-| `S-5`         | Full dispatcher dashboard: vehicles, charts, map              |
-| `S-6`         | Edge latency demo harness for judges                          |
-
----
-
-## Why It Matters
-
-- Transforms offline CSVs into real-time telemetry
-- Showcases real-world 5G + edge compute with **Wavelength**
-- Demonstrates **AI for Sustainability** in motion
-- Ideal for hackathons, AWS demos, or fleet simulations
-
----
-
-## 🚀 Quick Start (coming soon)
-TBD: Setup scripts, sample CSV, and deploy instructions.
+Further details for each epic can be found in their respective directories.
